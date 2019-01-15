@@ -1,4 +1,175 @@
 // Initialize Firebase
+
+var mapStyle = [
+  {
+    "featureType": "all",
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "weight": "2.00"
+      }
+    ]
+  },
+  {
+    "featureType": "all",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      {
+        "color": "#9c9c9c"
+      }
+    ]
+  },
+  {
+    "featureType": "all",
+    "elementType": "labels.text",
+    "stylers": [
+      {
+        "visibility": "on"
+      }
+    ]
+  },
+  {
+    "featureType": "landscape",
+    "elementType": "all",
+    "stylers": [
+      {
+        "color": "#f2f2f2"
+      }
+    ]
+  },
+  {
+    "featureType": "landscape",
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "color": "#ffffff"
+      }
+    ]
+  },
+  {
+    "featureType": "landscape.man_made",
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "color": "#ffffff"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "all",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "all",
+    "stylers": [
+      {
+        "saturation": -100
+      },
+      {
+        "lightness": 45
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "color": "#eeeeee"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#7b7b7b"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#ffffff"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "all",
+    "stylers": [
+      {
+        "visibility": "simplified"
+      }
+    ]
+  },
+  {
+    "featureType": "road.arterial",
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "elementType": "all",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "all",
+    "stylers": [
+      {
+        "color": "#46bcec"
+      },
+      {
+        "visibility": "on"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "color": "#c8d7d4"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#070707"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#ffffff"
+      }
+    ]
+  }
+]
 var config = {
   apiKey: "AIzaSyA3AZ7qHSzHU0at4cDM2BmxnFozscFwQ1s",
   authDomain: "streetartfinder-d85b6.firebaseapp.com",
@@ -7,11 +178,13 @@ var config = {
   storageBucket: "streetartfinder-d85b6.appspot.com",
   messagingSenderId: "961947549075"
 };
+
+
 firebase.initializeApp(config);
 
 var markers = [];
 
-var database = firebase.database(), snapshotGlobal, apiKey = '5484bba206bf2c1e6f6d38bb57c2af5e', per_page = "100", mapLatLng, map, markerArray = [], starRating;
+var database = firebase.database(), snapshotGlobal, apiKey = '36d4ae46e9058c9af0dbf8f99ab21862', per_page = "100", mapLatLng, map, markerArray = [], starRating;
 //default map coordinates
 var lat = "34.04117", lon = "-118.23298", radius = "20";
 
@@ -43,176 +216,7 @@ $(".start-btn").on("click", function () {
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 11,
       center: mapLatLng,
-      styles: [
-        {
-          "featureType": "all",
-          "elementType": "geometry.fill",
-          "stylers": [
-            {
-              "weight": "2.00"
-            }
-          ]
-        },
-        {
-          "featureType": "all",
-          "elementType": "geometry.stroke",
-          "stylers": [
-            {
-              "color": "#9c9c9c"
-            }
-          ]
-        },
-        {
-          "featureType": "all",
-          "elementType": "labels.text",
-          "stylers": [
-            {
-              "visibility": "on"
-            }
-          ]
-        },
-        {
-          "featureType": "landscape",
-          "elementType": "all",
-          "stylers": [
-            {
-              "color": "#f2f2f2"
-            }
-          ]
-        },
-        {
-          "featureType": "landscape",
-          "elementType": "geometry.fill",
-          "stylers": [
-            {
-              "color": "#ffffff"
-            }
-          ]
-        },
-        {
-          "featureType": "landscape.man_made",
-          "elementType": "geometry.fill",
-          "stylers": [
-            {
-              "color": "#ffffff"
-            }
-          ]
-        },
-        {
-          "featureType": "poi",
-          "elementType": "all",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "road",
-          "elementType": "all",
-          "stylers": [
-            {
-              "saturation": -100
-            },
-            {
-              "lightness": 45
-            }
-          ]
-        },
-        {
-          "featureType": "road",
-          "elementType": "geometry.fill",
-          "stylers": [
-            {
-              "color": "#eeeeee"
-            }
-          ]
-        },
-        {
-          "featureType": "road",
-          "elementType": "labels.text.fill",
-          "stylers": [
-            {
-              "color": "#7b7b7b"
-            }
-          ]
-        },
-        {
-          "featureType": "road",
-          "elementType": "labels.text.stroke",
-          "stylers": [
-            {
-              "color": "#ffffff"
-            }
-          ]
-        },
-        {
-          "featureType": "road.highway",
-          "elementType": "all",
-          "stylers": [
-            {
-              "visibility": "simplified"
-            }
-          ]
-        },
-        {
-          "featureType": "road.arterial",
-          "elementType": "labels.icon",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "transit",
-          "elementType": "all",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "water",
-          "elementType": "all",
-          "stylers": [
-            {
-              "color": "#46bcec"
-            },
-            {
-              "visibility": "on"
-            }
-          ]
-        },
-        {
-          "featureType": "water",
-          "elementType": "geometry.fill",
-          "stylers": [
-            {
-              "color": "#c8d7d4"
-            }
-          ]
-        },
-        {
-          "featureType": "water",
-          "elementType": "labels.text.fill",
-          "stylers": [
-            {
-              "color": "#070707"
-            }
-          ]
-        },
-        {
-          "featureType": "water",
-          "elementType": "labels.text.stroke",
-          "stylers": [
-            {
-              "color": "#ffffff"
-            }
-          ]
-        }
-      ]
+      styles: mapStyle
     });
   });
 });
@@ -277,16 +281,18 @@ $("#search-btn").on("click", function (event) {
 
 
   var currentPosition = map.getBounds();
-  lat = (currentPosition.f.b + currentPosition.f.f) / 2;
-  lon = (currentPosition.b.b + currentPosition.b.f) / 2;
-  radius = (currentPosition.f.f - currentPosition.f.b) * 111;
+  console.log(currentPosition)
+  lat = (currentPosition.ma.j + currentPosition.ma.l) / 2;
+  lon = (currentPosition.fa.j + currentPosition.fa.l) / 2;
+  
+  radius = (currentPosition.ma.l - currentPosition.ma.j) * 111;
+  //  radius = 20; 
   console.log(lat, lon, radius);
   if (radius > 20) {
     radius = 20;
   }
 
   var photoURL = "", photoID = "", originalTitle, tags = $("#search-bar").val().trim();
-
   var jsonRequest = 'https://api.flickr.com/services/rest/?&method=flickr.photos.search&api_key=' + apiKey + '&format=json&jsoncallback=?&sort=relevance&lat=' + lat + '&lon=' + lon + '&radius=' + radius + '&per_page=' + per_page + '&tags=mural,grafitti&text=';
 
 
@@ -309,9 +315,7 @@ $("#search-btn").on("click", function (event) {
       //console.log(item.id);
       // Create the imgContainer with string variable which will hold all the link location,
       // title, author link, and author name into a text string. 
-
       geotagging(photoID, photoURL, originalTitle);
-
     });
   });
 });
@@ -541,7 +545,7 @@ function processImage(url) {
     "language": "en",
   };;
   // Display the image.
-  var sourceImageUrl = url; // gets value from input user 
+  var sourceImageUrl = url; // gets value from input user
   // document.querySelector("#sourceImage").src = sourceImageUrl; // sets the image on the screen to display
   // Perform the REST API call.
   $.ajax({
@@ -574,7 +578,7 @@ function processImage(url) {
       }
 
 
-      //capturing tags as an object; 
+      //capturing tags as an object;
       console.log(data.tags);
       var tags = data.tags;
       console.log(tags);
